@@ -111,11 +111,11 @@ Click the the Triggers menu to see all the triggers created before.
 ![](images/cloudbuild_trigger.png)
 To manually trigger the build, click "Run trigger"
 
-Now go to Cloud Build History and select the Build .
+Now go to Cloud Build History and select the build id. It gives the Build Summary information(build log).
+
 
 ![](images/cloudbuild_history.png)
 
-It gives the build log information.
 
 Now go to Cloud Run to see the deployed service 
 
