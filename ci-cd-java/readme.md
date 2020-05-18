@@ -24,19 +24,35 @@ Cloudbuild.yaml have the instructions to build the source code and Copy the arti
 
 ```
 steps:
- - name: maven:3-jdk-8
-   entrypoint: mvn
-   args: ['--version']    
- - name: maven:3-jdk-8
-   entrypoint: mvn
-   args: ['package', '-Dmaven.test.skip=true']
- - name: maven:3-jdk-8
-   entrypoint: mvn
-   args: ['exec:java']
-artifacts:
-  objects:
-    location: 'gs://host-project-deep-data-mart/artifacts/'
-    paths: ['target/testApp-1.0.jar']   
+- id: maven package
+  name: maven:3-jdk-8 # mvn package command
+  entrypoint: mvn
+  args: ['package', '-Dmaven.test.skip=true']  
+- id: copy the jar to GCS  
+  name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', 'target/simple_micro_service-0.0.1-SNAPSHOT.jar', 'gs://host-project-deep-data-mart/artifacts/']     
+- id: docker build
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/microsvc_image', '.']
+- id: docker push
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/microsvc_image']
+- id: Deploy to Cloud Run
+  name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - run
+  - deploy
+  - cloudrunservice
+  - --image
+  - gcr.io/$PROJECT_ID/microsvc_image
+  - --region
+  - us-central1 # e.g. us-central1
+  - --platform
+  - managed
+  - --allow-unauthenticated
+images:
+- gcr.io/$PROJECT_ID/microsvc_image
+
  ```   
 
 ### 3. Build Docker image
