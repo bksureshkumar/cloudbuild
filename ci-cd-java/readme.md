@@ -106,6 +106,8 @@ Click Create Trigger
 
 Give a name for the trigger(ex: simple-microservice-build-trigger), select the Source Repository(ex: simple_micro_service),  select the Branch to ".*", Build configuration to /cloudbuild.yaml and click Create.
 
+Click the the Triggers menu to see all the triggers created before.
+
 ![](images/cloudbuild_trigger.png)
 To manually trigger the build, click "Run trigger"
 
@@ -113,4 +115,11 @@ Now go to Cloud Build History and select the Build .
 
 ![](images/cloudbuild_history.png)
 
+It gives the build log information.
+
+Now go to Cloud Run to see the deployed service 
+
+![](images/cloudrun.png)
+
+Verify the deployed service by clicking the url (https://cloudrunservice-du5thvm36a-uc.a.run.app)
     
